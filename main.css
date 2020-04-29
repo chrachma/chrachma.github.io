@@ -1,0 +1,28 @@
+.app-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: monospace;
+    line-height: 1.5;
+
+    font-size: x-large;
+}
+
+.refresh-box {
+    display: flex;
+    /* justify-content: space-evenly; */
+}
+
+input {
+    padding: 6px;
+    font-family: monospace;
+    border-width: 0px 0px 2px 0px;
+    border-radius: 0px;
+}
+
+
+
+
+
+
+}
