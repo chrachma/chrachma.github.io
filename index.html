@@ -123,7 +123,7 @@
         init: function () {
           this.status = 'init...'
           var vm = this
-          axios.get('http://chrachma.pythonanywhere.com/supermarkt/todo')
+          axios.get('https://chrachma.pythonanywhere.com/supermarkt/todo')
             .then(function (response) {
               vm.readData(response.data)
               vm.status = 'Refresh'
@@ -135,7 +135,7 @@
         update: function () {
           this.status = 'Updating...'
           var vm = this
-          axios.post('http://chrachma.pythonanywhere.com/supermarkt/update', this.todoList.concat(this.doneList))
+          axios.post('https://chrachma.pythonanywhere.com/supermarkt/update', this.todoList.concat(this.doneList))
             .then(function (response) {
               vm.readData(response.data)
               vm.status = 'Refresh'
