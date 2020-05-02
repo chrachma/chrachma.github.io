@@ -13,12 +13,19 @@
 </head>
 <body>
   <div id="app" class="app-box">
+    <div class="list-selection-box">
+      <div class="button-bar">
+        <button class="list-button" v-on:click="onListSelected('supermarkt')">SUPERMARKT</button>
+        <button class="list-button" v-on:click="onListSelected('drogerie')">DROGERIE</button>
+        <button class="list-button" v-on:click="onListSelected('baumarkt')">BAUMARKT</button>
+      </div>
+    </div>
     <div class="todo-box">
       <div class="add-box">
-        <form v-on:submit.prevent="addNewItem">
+        <form class="add-form" v-on:submit.prevent="addNewItem">
           <input v-model="newItem" id="new-todo"
-            placeholder="z.B. Schoko für Chris">
-          <button>+</button>
+            v-bind:placeholder="dynamicPlaceholder">
+          <button class="add-button">+</button>
         </form>
       </div>
       <ol>
@@ -58,10 +65,12 @@
         todoList: [],
         doneList: [],
         newItem: '',
-        status: ''
+        status: '',
+        listName: '',
+        dynamicPlaceholder: 'z.B. Schoko für die Kinder'
       },
       created: function () {
-        this.init()
+        this.init('supermarkt')
       },
       methods: {
         onTodoClicked: function (itemId) {
@@ -71,6 +80,9 @@
         onDoneClicked: function (itemId) {
           this.addById(itemId)
           this.update()
+        },
+        onListSelected: function (listName) {
+          this.init(listName)
         },
         readData(data) {
           this.todoList = new Array()
@@ -118,10 +130,20 @@
           }
           return 0;
         },
-        init: function () {
-          this.status = 'init...'
+        init: function (listName) {
+          this.listName = listName
+          if (listName === 'drogerie') {
+            this.dynamicPlaceholder = 'z.B. Wellness fuer die Mama'
+          }
+          else if (listName === 'baumarkt') {
+            this.dynamicPlaceholder = 'z.B. Tools fuer den Papa'
+          }
+          else if (listName === 'supermarkt') {
+            this.dynamicPlaceholder = 'z.B. Schoko fuer die Kinder'
+          }
+          this.status = 'init ' + listName + '...' 
           var vm = this
-          axios.get('https://chrachma.pythonanywhere.com/supermarkt/todo')
+          axios.get('https://chrachma.pythonanywhere.com/' + listName + '/todo')
             .then(function (response) {
               vm.readData(response.data)
               vm.status = 'Refresh'
@@ -133,7 +155,7 @@
         update: function () {
           this.status = 'Updating...'
           var vm = this
-          axios.post('https://chrachma.pythonanywhere.com/supermarkt/update', this.todoList.concat(this.doneList))
+          axios.post('https://chrachma.pythonanywhere.com/' + this.listName + '/update', this.todoList.concat(this.doneList))
             .then(function (response) {
               vm.readData(response.data)
               vm.status = 'Refresh'
