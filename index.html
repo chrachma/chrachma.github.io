@@ -18,6 +18,7 @@
         <button class="list-button" v-on:click="onListSelected('supermarkt')">SUPERMARKT</button>
         <button class="list-button" v-on:click="onListSelected('drogerie')">DROGERIE</button>
         <button class="list-button" v-on:click="onListSelected('baumarkt')">BAUMARKT</button>
+        <button class="list-button" v-on:click="onListSelected('kleidung')">KLAMOTTEN</button>
       </div>
     </div>
     <div class="todo-box">
@@ -140,6 +141,9 @@
           }
           else if (listName === 'supermarkt') {
             this.dynamicPlaceholder = 'z.B. Schoko fuer die Kinder'
+          }
+          else if (listName === 'kleidung') {
+            this.dynamicPlaceholder = 'z.B. Socken fuer alle'
           }
           this.status = 'init ' + listName + '...' 
           var vm = this
