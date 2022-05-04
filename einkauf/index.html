@@ -18,7 +18,7 @@
         <button class="list-button" v-on:click="onListSelected('supermarkt')">SUPERMARKT</button>
         <button class="list-button" v-on:click="onListSelected('drogerie')">DROGERIE</button>
         <button class="list-button" v-on:click="onListSelected('baumarkt')">BAUMARKT</button>
-        <button class="list-button" v-on:click="onListSelected('kleidung')">KLAMOTTEN</button>
+        <button class="list-button" v-on:click="onListSelected('kleidung')">BESTELLEN</button>
       </div>
     </div>
     <div class="todo-box">
@@ -45,12 +45,16 @@
     <div class="done-box">  
       <ul>
         <todo-item
-          v-for="item in doneList"
-          v-bind:todo="item"
-          v-bind:key="item.id"
-          v-on:click="onDoneClicked(item.id)"
+        v-for="item in doneList"
+        v-bind:todo="item"
+        v-bind:key="item.id"
+        v-on:click="onDoneClicked(item.id)"
         ></todo-item>
       </ul>
+    </div>
+    <div class="refresh-box">
+      <button v-on:click="clearDone"> Clear done items </button>
+      <!-- <div> {{ status }} </div> -->
     </div>
   </div>
 
@@ -68,7 +72,9 @@
         newItem: '',
         status: '',
         listName: '',
-        dynamicPlaceholder: 'z.B. Schoko für die Kinder'
+        dynamicPlaceholder: 'z.B. Schoko für die Kinder',
+        // endpoint: 'http://127.0.0.1:5000/'
+        endpoint: 'https://chrachma.pythonanywhere.com/'
       },
       created: function () {
         this.init('supermarkt')
@@ -147,7 +153,7 @@
           }
           this.status = 'init ' + listName + '...' 
           var vm = this
-          axios.get('https://chrachma.pythonanywhere.com/' + listName + '/todo')
+          axios.get(this.endpoint + listName + '/todo')
             .then(function (response) {
               vm.readData(response.data)
               vm.status = 'Refresh'
@@ -159,10 +165,20 @@
         update: function () {
           this.status = 'Updating...'
           var vm = this
-          axios.post('https://chrachma.pythonanywhere.com/' + this.listName + '/update', this.todoList.concat(this.doneList))
+          axios.post(this.endpoint + this.listName + '/update', this.todoList.concat(this.doneList))
             .then(function (response) {
               vm.readData(response.data)
               vm.status = 'Refresh'
+            })
+            .catch(function (error) {
+              vm.status = 'Error! Could not reach the API. ' + error
+            })
+        },
+        clearDone: function () {
+          var vm = this
+          axios.post(this.endpoint + this.listName + '/cleardone')
+            .then(function (response) {
+              vm.readData(response.data)
             })
             .catch(function (error) {
               vm.status = 'Error! Could not reach the API. ' + error
