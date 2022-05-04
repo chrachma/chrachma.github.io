@@ -1,0 +1,61 @@
+.app-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: monospace;
+    line-height: 2;
+
+    font-size: xx-large;
+}
+
+.todo-box {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.add-box {
+
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+}
+
+.add-form {
+
+    display: flex;
+    width: 80%;
+
+}
+
+.refresh-box {
+    display: flex;
+    /* justify-content: space-evenly; */
+}
+
+input {
+    padding: 6px;
+    font-family: monospace;
+    border-width: 0px 0px 2px 0px;
+    border-radius: 0px;
+    width: 90%;
+    margin: 5px;
+    font-size: inherit;
+}
+
+.add-button {
+    font-size: xx-large;
+    line-height: 1.5;
+}
+
+.button-bar {
+    padding: 30px;
+}
+
+.list-button {
+    line-height: 2.5;
+    font-size: xx-large;
+}
