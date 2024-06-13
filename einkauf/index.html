@@ -95,10 +95,12 @@
           this.todoList = new Array()
           this.doneList = new Array()
           for (let x of data) {
-            if (x.count > 0) {
-              this.todoList.push({"id": x.id, "text": x.text, "count": x.count, "lastedit": x.lastedit})
-            } else {
-              this.doneList.push({"id": x.id, "text": x.text, "count": x.count, "lastedit": x.lastedit})
+            if (x.text.length > 0) {
+              if (x.count > 0) {
+                this.todoList.push({"id": x.id, "text": x.text, "count": x.count, "lastedit": x.lastedit})
+              } else {
+               this.doneList.push({"id": x.id, "text": x.text, "count": x.count, "lastedit": x.lastedit})
+              }
             }
           }
           this.todoList.sort(this.compare);
